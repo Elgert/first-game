@@ -1,0 +1,74 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsgjlq6u7x38s"]
+
+[ext_resource type="Script" path="res://scripts/analog_stick.gd" id="1_uvyhy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c2umo"]
+radius = 100.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p5i5q"]
+radius = 40.0
+
+[node name="AnalogStick" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_uvyhy")
+
+[node name="Base" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 200.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Base"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0, 0.0, 0.0, 0.196078)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base"]
+position = Vector2(100, 100)
+shape = SubResource("CircleShape2D_c2umo")
+disabled = true
+
+[node name="Stick" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 80.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Stick"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.337255, 0.337255, 0.337255, 0.588235)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Stick"]
+position = Vector2(40, 40)
+shape = SubResource("CircleShape2D_p5i5q")
+disabled = true
