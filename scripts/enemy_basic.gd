@@ -5,7 +5,7 @@ signal enemy_died(position, experience_value)
 @export var movement_speed = 100.0
 @export var health = 10
 @export var damage = 5
-@export var experience_value = 5
+@export var experience_value = 1
 
 var target = null
 var knockback_velocity = Vector2.ZERO

@@ -11,7 +11,7 @@ var health = 100
 var max_health = 100
 var experience = 0
 var level = 1
-var experience_to_next_level = 100
+var experience_to_next_level = 20 # Lower value for faster leveling during testing
 
 # Weapons and abilities
 var weapons = []
@@ -21,11 +21,17 @@ var active_weapons = []
 var analog_velocity = Vector2.ZERO
 var using_analog = false
 
+@onready var basic_weapon = $BasicWeapon
+
 func _ready():
 	# Initialize player
 	emit_signal("health_changed", health, max_health)
 	emit_signal("level_changed", level)
 	emit_signal("experience_changed", experience, experience_to_next_level)
+
+	# Store reference to the weapon
+	if basic_weapon:
+		weapons.append(basic_weapon)
 
 func _physics_process(_delta):
 	# Movement using analog input if available, otherwise keyboard
@@ -97,6 +103,11 @@ func level_up():
 	max_health += 10
 	health = max_health
 
+	# Upgrade weapons - increase projectile count
+	if basic_weapon:
+		basic_weapon.projectile_count += 1
+		print("Level up! Projectile count increased to: ", basic_weapon.projectile_count)
+
 	# Emit signals
 	emit_signal("level_changed", level)
 	emit_signal("health_changed", health, max_health)
@@ -104,7 +115,7 @@ func level_up():
 
 # Add a weapon
 func add_weapon(weapon_scene):
-	var weapon = weapon_scene.instance()
+	var weapon = weapon_scene.instantiate()
 	weapons.append(weapon)
 	add_child(weapon)
 
