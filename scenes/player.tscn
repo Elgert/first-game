@@ -1,24 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://nvkr7gbbtpua"]
+[gd_scene load_steps=4 format=3 uid="uid://b3r45kypfcy2u"]
 
 [ext_resource type="Script" uid="uid://btq0tuwbjwnw5" path="res://scripts/player.gd" id="1_kcvxj"]
 [ext_resource type="Script" uid="uid://cw1aahoubta0a" path="res://scripts/weapon_projectile.gd" id="2_kpxe5"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_u7fnj"]
-radius = 16.0
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_04tsl"]
-size = Vector2(32, 32)
+[ext_resource type="Texture2D" uid="uid://8o3lfj44bhxb" path="res://assets/sprites/albanian_soldier.jpg" id="3_ybgqt"]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 10
 collision_mask = 6
 script = ExtResource("1_kcvxj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_u7fnj")
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("PlaceholderTexture2D_04tsl")
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_ybgqt")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
@@ -26,3 +19,6 @@ position_smoothing_speed = 3.0
 
 [node name="BasicWeapon" type="Node2D" parent="."]
 script = ExtResource("2_kpxe5")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-14, -17, -3, -24, -4, -40, 4, -44, 14, -40, 13, -23, 27, -3, 19, 9, 21, 37, 24, 42, -13, 43, -12, 24, -24, 13, -15, -17, -15, -17)
