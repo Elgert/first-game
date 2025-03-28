@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://btq0tuwbjwnw5" path="res://scripts/player.gd" id="1_kcvxj"]
 [ext_resource type="Script" uid="uid://cw1aahoubta0a" path="res://scripts/weapon_projectile.gd" id="2_kpxe5"]
-[ext_resource type="Texture2D" uid="uid://8o3lfj44bhxb" path="res://assets/sprites/albanian_soldier.jpg" id="3_ybgqt"]
+[ext_resource type="Texture2D" uid="uid://8o3lfj44bhxb" path="res://assets/sprites/albanian_soldier.png" id="3_ybgqt"]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 10
