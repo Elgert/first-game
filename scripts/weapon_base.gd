@@ -5,14 +5,14 @@ class_name WeaponBase
 # Weapon properties
 @export var weapon_name = "Base Weapon"
 @export var damage = 10
-@export var attack_speed = 1.0  # Attacks per second
+@export var attack_speed = 1.0 # Attacks per second
 @export var attack_range = 200.0
 @export var level = 1
 @export var max_level = 8
 
 # Internal variables
 var cooldown_timer = 0.0
-var cooldown = 1.0  # Will be set based on attack_speed
+var cooldown = 1.0 # Will be set based on attack_speed
 var target = null
 
 # References
@@ -63,9 +63,9 @@ func upgrade():
 # Apply stat upgrades based on level
 func _apply_upgrade():
 	# Base implementation - override in specific weapons
-	damage = int(damage * 1.2)  # 20% damage increase per level
-	attack_speed *= 1.1  # 10% attack speed increase per level
-	attack_range *= 1.05  # 5% range increase per level
+	damage = int(damage * 1.2) # 20% damage increase per level
+	attack_speed *= 1.1 # 10% attack speed increase per level
+	attack_range *= 1.05 # 5% range increase per level
 
 	# Update cooldown based on new attack speed
 	cooldown = 1.0 / attack_speed

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dcq3nq0ojhptw"]
 
-[ext_resource type="Script" path="res://scripts/enemy_basic.gd" id="1_88d7j"]
+[ext_resource type="Script" uid="uid://b7tlkcfgvqokc" path="res://scripts/enemy_basic.gd" id="1_88d7j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v83y3"]
 radius = 16.0
@@ -22,7 +22,6 @@ texture = SubResource("PlaceholderTexture2D_s8ydd")
 
 [node name="PlayerDetection" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
 shape = SubResource("CircleShape2D_v83y3")

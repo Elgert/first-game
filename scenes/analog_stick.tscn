@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsgjlq6u7x38s"]
+[gd_scene load_steps=4 format=3 uid="uid://bdwf8kr1c001"]
 
-[ext_resource type="Script" path="res://scripts/analog_stick.gd" id="1_uvyhy"]
+[ext_resource type="Script" uid="uid://b2ocioifeku1f" path="res://scripts/analog_stick.gd" id="1_uvyhy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c2umo"]
 radius = 100.0
@@ -39,7 +39,7 @@ offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.0, 0.0, 0.0, 0.196078)
+color = Color(0, 0, 0, 0.196078)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base"]
 position = Vector2(100, 100)
