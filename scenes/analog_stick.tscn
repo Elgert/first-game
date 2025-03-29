@@ -20,9 +20,14 @@ script = ExtResource("1_uvyhy")
 
 [node name="Base" type="Panel" parent="."]
 modulate = Color(1, 1, 1, 0.392157)
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -300.0
 offset_right = 200.0
-offset_bottom = 200.0
+offset_bottom = -100.0
+grow_vertical = 0
 mouse_filter = 2
 
 [node name="ColorRect" type="ColorRect" parent="Base"]
@@ -47,9 +52,14 @@ shape = SubResource("CircleShape2D_c2umo")
 disabled = true
 
 [node name="Stick" type="Panel" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -260.0
 offset_right = 80.0
-offset_bottom = 80.0
+offset_bottom = -180.0
+grow_vertical = 0
 mouse_filter = 2
 
 [node name="ColorRect" type="ColorRect" parent="Stick"]

@@ -3,7 +3,7 @@ extends Node2D
 # Weapon properties
 @export var weapon_name = "Projectile Weapon"
 @export var damage = 10
-@export var attack_speed = 1.0 # Attacks per second
+@export var attack_speed = 1 # Attacks per second
 @export var attack_range = 500.0
 @export var level = 1
 @export var max_level = 8

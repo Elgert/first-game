@@ -5,7 +5,7 @@ class_name WeaponOrbit
 # Weapon properties
 @export var weapon_name = "Orbit Fireballs"
 @export var damage = 15
-@export var orbit_speed = 2.0
+@export var orbit_speed = 0.6 # Reduced from 2.0 (about 3.3x slower)
 @export var level = 1
 @export var max_level = 5
 @export var fireball_count = 1
