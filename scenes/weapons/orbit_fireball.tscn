@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://dpnlhbv6l0r1y"]
+
+[ext_resource type="Script" path="res://scripts/orbit_fireball.gd" id="1_cqg1p"]
+[ext_resource type="Texture2D" uid="uid://p0rnn52nlr72" path="res://assets/sprites/fireball.png" id="2_lrrbl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g03ro"]
+atlas = ExtResource("2_lrrbl")
+region = Rect2(0, 0, 340, 1021)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a16p5"]
+atlas = ExtResource("2_lrrbl")
+region = Rect2(340, 0, 340, 1021)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqq5q"]
+atlas = ExtResource("2_lrrbl")
+region = Rect2(680, 0, 340, 1021)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4uuea"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g03ro")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a16p5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lqq5q")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k0djo"]
+radius = 11.0
+
+[node name="OrbitFireball" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_cqg1p")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.08, 0.08)
+sprite_frames = SubResource("SpriteFrames_4uuea")
+frame_progress = 0.143486
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_k0djo")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

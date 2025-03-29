@@ -6,6 +6,9 @@ signal experience_changed(new_exp, next_level_exp)
 
 const SPEED = 300.0
 
+# Weapon types
+const WeaponOrbitScript = preload("res://scripts/weapon_orbit.gd")
+
 # Player stats
 var health = 100
 var max_health = 100
@@ -126,15 +129,57 @@ func level_up():
 	max_health += 10
 	health = max_health
 
-	# Upgrade weapons - increase projectile count
-	if basic_weapon:
-		basic_weapon.projectile_count += 1
-		print("Level up! Projectile count increased to: ", basic_weapon.projectile_count)
-
 	# Emit signals
 	emit_signal("level_changed", level)
 	emit_signal("health_changed", health, max_health)
 	emit_signal("experience_changed", experience, experience_to_next_level)
+
+# Apply a selected upgrade
+func apply_upgrade(upgrade_type):
+	match upgrade_type:
+		0: # Increase projectile count
+			increase_projectile_count()
+		1: # Increase firing speed
+			increase_firing_speed()
+		2: # Add or upgrade orbiting fireballs
+			upgrade_orbit_fireballs()
+
+# Increase the number of projectiles fired
+func increase_projectile_count():
+	if basic_weapon:
+		basic_weapon.projectile_count += 1
+		print("Upgrade applied: Projectile count increased to: ", basic_weapon.projectile_count)
+
+# Increase the firing speed of the main weapon
+func increase_firing_speed():
+	if basic_weapon:
+		basic_weapon.attack_speed *= 1.2
+		basic_weapon.cooldown = 1.0 / basic_weapon.attack_speed
+		print("Upgrade applied: Firing speed increased to: ", basic_weapon.attack_speed)
+
+# Add or upgrade the orbiting fireballs
+func upgrade_orbit_fireballs():
+	# Check if player already has orbit weapon
+	var has_orbit_weapon = false
+	var orbit_weapon = null
+
+	for weapon in weapons:
+		if weapon.get_script() == WeaponOrbitScript:
+			has_orbit_weapon = true
+			orbit_weapon = weapon
+			break
+
+	if has_orbit_weapon:
+		# Upgrade existing orbit weapon
+		orbit_weapon.upgrade()
+		print("Upgrade applied: Orbit fireball count increased to: ", orbit_weapon.fireball_count)
+	else:
+		# Add new orbit weapon
+		var new_orbit_weapon = Node2D.new()
+		new_orbit_weapon.set_script(WeaponOrbitScript)
+		add_child(new_orbit_weapon)
+		weapons.append(new_orbit_weapon)
+		print("Upgrade applied: Orbit fireball added")
 
 # Add a weapon
 func add_weapon(weapon_scene):
