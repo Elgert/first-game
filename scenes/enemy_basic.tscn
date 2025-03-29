@@ -1,28 +1,79 @@
-[gd_scene load_steps=4 format=3 uid="uid://dcq3nq0ojhptw"]
+[gd_scene load_steps=11 format=3 uid="uid://b2mh183tc7ro1"]
 
-[ext_resource type="Script" uid="uid://b7tlkcfgvqokc" path="res://scripts/enemy_basic.gd" id="1_88d7j"]
+[ext_resource type="Script" uid="uid://b7tlkcfgvqokc" path="res://scripts/enemy_basic.gd" id="1_5t64k"]
+[ext_resource type="Texture2D" uid="uid://douq2b68asflt" path="res://assets/sprites/simple_goblin.png" id="2_0hjuf"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_v83y3"]
-radius = 16.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_21wqp"]
+radius = 19.0
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_s8ydd"]
-size = Vector2(32, 32)
+[sub_resource type="CircleShape2D" id="CircleShape2D_lfqnr"]
+radius = 19.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5mps"]
+atlas = ExtResource("2_0hjuf")
+region = Rect2(341, 680, 341, 340)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x206n"]
+atlas = ExtResource("2_0hjuf")
+region = Rect2(682, 680, 341, 340)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o5w3e"]
+atlas = ExtResource("2_0hjuf")
+region = Rect2(0, 340, 341, 340)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ep5sl"]
+atlas = ExtResource("2_0hjuf")
+region = Rect2(341, 340, 341, 340)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fsfn"]
+atlas = ExtResource("2_0hjuf")
+region = Rect2(682, 340, 341, 340)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gfqvv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g5mps")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x206n")
+}],
+"loop": false,
+"name": &"die",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o5w3e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ep5sl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fsfn")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
 
 [node name="EnemyBasic" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 2
-collision_mask = 3
-script = ExtResource("1_88d7j")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_v83y3")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.929412, 0.188235, 0.133333, 1)
-texture = SubResource("PlaceholderTexture2D_s8ydd")
+collision_mask = 7
+script = ExtResource("1_5t64k")
 
 [node name="PlayerDetection" type="Area2D" parent="."]
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
-shape = SubResource("CircleShape2D_v83y3")
-debug_color = Color(0.619608, 0.431373, 0.709804, 0.419608)
+shape = SubResource("CircleShape2D_21wqp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_lfqnr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.129412, 0.129412)
+sprite_frames = SubResource("SpriteFrames_gfqvv")
+animation = &"die"
+
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]

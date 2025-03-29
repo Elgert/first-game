@@ -10,15 +10,23 @@ signal enemy_died(position, experience_value)
 var target = null
 var knockback_velocity = Vector2.ZERO
 var knockback_resistance = 0.8
+var is_dying = false
 
 @onready var player_detection = $PlayerDetection
+@onready var animated_sprite = $AnimatedSprite2D
 
 func _ready():
 	add_to_group("enemies")
 	# Find player as target
 	target = get_tree().get_first_node_in_group("player")
 
+	# Start walk animation
+	animated_sprite.play("walk")
+
 func _physics_process(delta):
+	if is_dying:
+		return
+
 	if target == null:
 		# Try to find player again if lost
 		target = get_tree().get_first_node_in_group("player")
@@ -32,6 +40,12 @@ func _physics_process(delta):
 		# Move towards player
 		var direction = global_position.direction_to(target.global_position)
 		velocity = direction * movement_speed
+
+		# Flip sprite based on movement direction
+		if velocity.x < 0:
+			animated_sprite.flip_h = true # Moving left, flip sprite
+		elif velocity.x > 0:
+			animated_sprite.flip_h = false # Moving right, normal sprite
 
 	move_and_slide()
 
@@ -59,18 +73,27 @@ func take_damage(amount, knockback_force = Vector2.ZERO):
 	if health <= 0:
 		die()
 	else:
-		# Play hit animation/effect
-		pass
+		# Play hit animation/effect - flash the sprite
+		modulate = Color(1, 0.5, 0.5) # Red tint
+		await get_tree().create_timer(0.1).timeout
+		modulate = Color(1, 1, 1) # Back to normal
 
 func apply_knockback(force):
 	knockback_velocity = force
 
 func die():
+	# Prevent further movement and physics
+	is_dying = true
+	set_physics_process(false)
+
+	# Play death animation
+	animated_sprite.play("die")
+
+	# Wait for animation to finish
+	await animated_sprite.animation_finished
+
 	# Emit signal for experience drop
 	emit_signal("enemy_died", global_position, experience_value)
-
-	# Play death animation/effect
-	# Instantiate loot if needed
 
 	# Remove the enemy
 	queue_free()
