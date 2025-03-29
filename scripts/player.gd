@@ -11,7 +11,7 @@ var health = 100
 var max_health = 100
 var experience = 0
 var level = 1
-var experience_to_next_level = 20 # Lower value for faster leveling during testing
+var experience_to_next_level = 3 # Lower value for faster leveling during testing
 
 # Weapons and abilities
 var weapons = []

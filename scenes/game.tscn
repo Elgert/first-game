@@ -1,16 +1,48 @@
-[gd_scene load_steps=5 format=3 uid="uid://yyenrdmatgy0"]
+[gd_scene load_steps=8 format=3 uid="uid://yyenrdmatgy0"]
 
 [ext_resource type="PackedScene" uid="uid://b3r45kypfcy2u" path="res://scenes/player.tscn" id="1_yt1ie"]
 [ext_resource type="PackedScene" uid="uid://bdwf8kr1c001" path="res://scenes/analog_stick.tscn" id="2_oj3va"]
 [ext_resource type="Script" uid="uid://605eqxdl1ftw" path="res://scripts/game_manager.gd" id="3_dkyex"]
+[ext_resource type="Texture2D" uid="uid://cv8agjv5mm4kx" path="res://assets/scenes/background_forest.png" id="4_flxam"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nw4y2"]
+size = Vector2(2000, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fmxr4"]
+size = Vector2(20, 2000)
 
 [sub_resource type="TileSet" id="TileSet_8n50p"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("3_dkyex")
 
+[node name="Background" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = ExtResource("4_flxam")
+
+[node name="GameBounds" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="TopBoundary" type="CollisionShape2D" parent="GameBounds"]
+position = Vector2(0, -750)
+shape = SubResource("RectangleShape2D_nw4y2")
+
+[node name="BottomBoundary" type="CollisionShape2D" parent="GameBounds"]
+position = Vector2(0, 750)
+shape = SubResource("RectangleShape2D_nw4y2")
+
+[node name="LeftBoundary" type="CollisionShape2D" parent="GameBounds"]
+position = Vector2(-1000, 0)
+shape = SubResource("RectangleShape2D_fmxr4")
+
+[node name="RightBoundary" type="CollisionShape2D" parent="GameBounds"]
+position = Vector2(1000, 0)
+shape = SubResource("RectangleShape2D_fmxr4")
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_8n50p")
+collision_visibility_mode = 1
 format = 2
 layer_0/name = "Ground"
 

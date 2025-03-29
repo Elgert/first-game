@@ -8,9 +8,10 @@ var game_over = false
 var score = 0
 
 # Map settings
-var map_width = 3000
-var map_height = 3000
+var map_width = 2000
+var map_height = 1500
 var map_center = Vector2(0, 0)
+var game_bounds = Rect2(-1000, -750, 2000, 1500)
 
 # Enemy settings
 var enemy_max_count = 100
@@ -43,8 +44,6 @@ func _ready():
 	# Initialize enemy types
 	enemy_types.append(preload("res://scenes/enemy_basic.tscn"))
 
-	_generate_map()
-
 func _process(delta):
 	# Update game time
 	if !game_over:
@@ -60,11 +59,6 @@ func _update_time_display():
 	var seconds = int(time_left) % 60
 	time_label.text = "%02d:%02d" % [minutes, seconds]
 
-func _generate_map():
-	# This would be replaced with your actual map generation code
-	# For now, we'll just create a simple rectangular boundary
-	pass
-
 func _on_enemy_spawn_timer_timeout():
 	if game_over:
 		return
@@ -75,7 +69,7 @@ func _on_enemy_spawn_timer_timeout():
 		return
 
 	# Spawn enemies around the player
-	var spawn_count = int(1 + difficulty_curve / 2) # More enemies as game progresses
+	var spawn_count = int(2 + difficulty_curve / 2) # More enemies as game progresses
 	for i in range(spawn_count):
 		_spawn_enemy()
 
@@ -83,10 +77,34 @@ func _on_enemy_spawn_timer_timeout():
 	enemy_spawn_timer.wait_time = max(0.5, 2.0 - (difficulty_curve * 0.1))
 
 func _spawn_enemy():
-	# Calculate spawn position around player
-	var angle = randf() * 2 * PI
-	var distance = enemy_spawn_distance + randf() * 200 # Add some randomness
-	var spawn_pos = player.global_position + Vector2(cos(angle), sin(angle)) * distance
+	# Calculate spawn position around player but within game bounds
+	var spawn_pos = Vector2.ZERO
+	var tries = 0
+	var max_tries = 10
+
+	while tries < max_tries:
+		# Try to find a valid spawn position
+		var angle = randf() * 2 * PI
+		var distance = enemy_spawn_distance + randf() * 200 # Add some randomness
+		var potential_pos = player.global_position + Vector2(cos(angle), sin(angle)) * distance
+
+		# Check if within game bounds
+		if game_bounds.has_point(potential_pos):
+			spawn_pos = potential_pos
+			break
+
+		tries += 1
+
+	# If we couldn't find a valid position after max tries, use a position at the edge
+	if tries >= max_tries:
+		var edge_angle = randf() * 2 * PI
+		var edge_x = clamp(player.global_position.x + cos(edge_angle) * enemy_spawn_distance,
+						   game_bounds.position.x + 50,
+						   game_bounds.position.x + game_bounds.size.x - 50)
+		var edge_y = clamp(player.global_position.y + sin(edge_angle) * enemy_spawn_distance,
+						   game_bounds.position.y + 50,
+						   game_bounds.position.y + game_bounds.size.y - 50)
+		spawn_pos = Vector2(edge_x, edge_y)
 
 	# Select random enemy type
 	var enemy_scene = enemy_types[randi() % enemy_types.size()]
