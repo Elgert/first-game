@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Vampire Clone"
+config/name="Elgert Survivor"
 run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.4")
 config/icon="res://icon.svg"
@@ -24,6 +24,7 @@ window/size/window_height_override=1280
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_height"
 window/handheld/orientation="portrait"
+window/size/resizable=false
 
 [input]
 

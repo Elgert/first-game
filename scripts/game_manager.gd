@@ -33,6 +33,10 @@ var level_up_ui = null
 @onready var exp_bar = $CanvasLayer/HUD/ExpBar
 
 func _ready():
+	# Force portrait orientation on mobile
+	if OS.get_name() == "Android" or OS.get_name() == "iOS":
+		DisplayServer.screen_set_orientation(DisplayServer.SCREEN_PORTRAIT)
+
 	# Initialize the game
 	randomize()
 

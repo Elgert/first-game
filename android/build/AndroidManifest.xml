@@ -45,8 +45,8 @@
             android:launchMode="singleInstancePerTask"
             android:excludeFromRecents="false"
             android:exported="true"
-            android:screenOrientation="landscape"
-            android:configChanges="layoutDirection|locale|orientation|keyboardHidden|screenSize|smallestScreenSize|density|keyboard|navigation|screenLayout|uiMode"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|density"
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" >
 
