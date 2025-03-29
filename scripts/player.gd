@@ -21,13 +21,23 @@ var active_weapons = []
 var analog_velocity = Vector2.ZERO
 var using_analog = false
 
+# Animation variables
+var last_direction = "down"
+
 @onready var basic_weapon = $BasicWeapon
+@onready var animated_sprite = $AnimatedSprite2D
 
 func _ready():
 	# Initialize player
 	emit_signal("health_changed", health, max_health)
 	emit_signal("level_changed", level)
 	emit_signal("experience_changed", experience, experience_to_next_level)
+
+	# Ensure collision mask includes buildings (layer 2)
+	set_collision_mask_value(2, true)
+
+	# Set default animation
+	animated_sprite.play("idle_down")
 
 	# Store reference to the weapon
 	if basic_weapon:
@@ -49,13 +59,26 @@ func _physics_process(_delta):
 	_update_animation()
 
 func _update_animation():
-	# Simple animation logic - can be expanded later
+	# Determine direction based on velocity
+	var direction = "down" # Default
+
 	if velocity.length() > 0:
-		# Moving animation
-		pass
+		# Moving, determine direction
+		if abs(velocity.x) > abs(velocity.y):
+			# Horizontal movement is dominant
+			direction = "right" if velocity.x > 0 else "left"
+		else:
+			# Vertical movement is dominant
+			direction = "down" if velocity.y > 0 else "up"
+
+		# Save last direction for idle state
+		last_direction = direction
+
+		# Play walking animation for current direction
+		animated_sprite.play("walk_" + direction)
 	else:
-		# Idle animation
-		pass
+		# Not moving, play idle animation based on last direction
+		animated_sprite.play("idle_" + last_direction)
 
 # Called when the virtual analog stick is used
 func set_analog_motion(input_vector):
