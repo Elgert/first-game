@@ -1,6 +1,66 @@
-[gd_scene load_steps=2 format=3 uid="uid://dg8rhrvkeu4o5"]
+[gd_scene load_steps=6 format=3 uid="uid://dg8rhrvkeu4o5"]
 
 [ext_resource type="Script" uid="uid://bggfwfd0bqk26" path="res://scripts/main_menu.gd" id="1_tgblw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bgqbm"]
+bg_color = Color(0.172549, 0.0705882, 0.0313726, 0.901961)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.803922, 0.172549, 0.113725, 0.196078)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.427451)
+shadow_size = 4
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_svpv3"]
+bg_color = Color(0.921569, 0.27451, 0.141176, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.988235, 0.611765, 0.254902, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.352941)
+shadow_size = 3
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j4piq"]
+bg_color = Color(0.647059, 0.121569, 0.0588235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.870588, 0.380392, 0.192157, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.352941)
+shadow_size = 2
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nhs0m"]
+bg_color = Color(0.803922, 0.172549, 0.113725, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.964706, 0.47451, 0.270588, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.352941)
+shadow_size = 3
+shadow_offset = Vector2(0, 3)
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -11,78 +71,173 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tgblw")
 
-[node name="Title" type="Label" parent="."]
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0666667, 0.0196078, 0.0117647, 1)
+
+[node name="FireGradient" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.772549, 0.215686, 0.0627451, 0.137255)
+
+[node name="FireGradientTop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 300.0
+grow_horizontal = 2
+color = Color(0.917647, 0.45098, 0.133333, 0.117647)
+
+[node name="TitlePanel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -141.0
-offset_top = 150.0
-offset_right = 141.0
-offset_bottom = 222.0
+offset_left = -300.0
+offset_top = 120.0
+offset_right = 300.0
+offset_bottom = 250.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 50
-text = "Flame Eternal"
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_bgqbm")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Title" type="Label" parent="TitlePanel"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -110.0
-offset_right = 100.0
-offset_bottom = 170.0
+offset_left = -183.0
+offset_top = -36.0
+offset_right = 183.0
+offset_bottom = 36.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_colors/font_color = Color(0.964706, 0.47451, 0.270588, 1)
+theme_override_colors/font_outline_color = Color(0.690196, 0.168627, 0.0666667, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "FLAME ETERNAL"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="StartButton" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(200, 50)
+[node name="MenuPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -130.0
+offset_right = 220.0
+offset_bottom = 230.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bgqbm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 25
+
+[node name="StartButton" type="Button" parent="MenuPanel/VBoxContainer"]
+custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_hover_color = Color(1, 0.992157, 0.929412, 1)
+theme_override_colors/font_color = Color(1, 0.937255, 0.839216, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.827451, 0.639216, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/hover = SubResource("StyleBoxFlat_svpv3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j4piq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_nhs0m")
 text = "Start Game"
 
-[node name="ChooseLevelButton" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(200, 50)
+[node name="ChooseLevelButton" type="Button" parent="MenuPanel/VBoxContainer"]
+custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_hover_color = Color(1, 0.992157, 0.929412, 1)
+theme_override_colors/font_color = Color(1, 0.937255, 0.839216, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.827451, 0.639216, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/hover = SubResource("StyleBoxFlat_svpv3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j4piq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_nhs0m")
 text = "Choose Level"
 
-[node name="UpgradeCharacterButton" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(200, 50)
+[node name="UpgradeCharacterButton" type="Button" parent="MenuPanel/VBoxContainer"]
+custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_hover_color = Color(1, 0.992157, 0.929412, 1)
+theme_override_colors/font_color = Color(1, 0.937255, 0.839216, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.827451, 0.639216, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/hover = SubResource("StyleBoxFlat_svpv3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j4piq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_nhs0m")
 text = "Upgrade Character"
 
-[node name="QuitButton" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(200, 50)
+[node name="QuitButton" type="Button" parent="MenuPanel/VBoxContainer"]
+custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_hover_color = Color(1, 0.992157, 0.929412, 1)
+theme_override_colors/font_color = Color(1, 0.937255, 0.839216, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.827451, 0.639216, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/hover = SubResource("StyleBoxFlat_svpv3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j4piq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_nhs0m")
 text = "Quit"
 
-[node name="Instructions" type="Label" parent="."]
+[node name="InstructionsPanel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -283.0
-offset_top = -101.0
-offset_right = 283.0
-offset_bottom = -38.0
+offset_left = -300.0
+offset_top = -120.0
+offset_right = 300.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bgqbm")
+
+[node name="Instructions" type="Label" parent="InstructionsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.972549, 0.658824, 0.431373, 1)
+theme_override_font_sizes/font_size = 16
 text = "Use arrow keys or virtual analog stick to move.
 Survive as long as possible and defeat enemies to level up!"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ChooseLevelButton" to="." method="_on_choose_level_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/UpgradeCharacterButton" to="." method="_on_upgrade_character_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="MenuPanel/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MenuPanel/VBoxContainer/ChooseLevelButton" to="." method="_on_choose_level_button_pressed"]
+[connection signal="pressed" from="MenuPanel/VBoxContainer/UpgradeCharacterButton" to="." method="_on_upgrade_character_button_pressed"]
+[connection signal="pressed" from="MenuPanel/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

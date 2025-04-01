@@ -29,12 +29,14 @@ var weapon_manager = null
 # References
 @onready var player = $Player
 @onready var enemy_spawn_timer = $EnemySpawnTimer
-@onready var time_label = $TimeLabel
+@onready var time_label = $CanvasLayer/HUD/TimePanel/TimeLabel
 @onready var hud = $CanvasLayer/HUD
 @onready var health_bar = $CanvasLayer/HUD/HealthBar
 @onready var health_label = $CanvasLayer/HUD/HealthBar/HealthLabel
-@onready var level_label = $CanvasLayer/HUD/LevelLabel
+@onready var level_label = $CanvasLayer/HUD/BottomPanel/LevelLabel
 @onready var exp_bar = $CanvasLayer/HUD/ExpBar
+@onready var game_over_overlay = $CanvasLayer/GameOverOverlay
+@onready var score_label = $CanvasLayer/GameOverOverlay/Panel/ScoreLabel
 
 func _ready():
 	# Force portrait orientation on mobile
@@ -63,6 +65,9 @@ func _ready():
 
 	# Initialize weapon manager
 	weapon_manager = weapon_manager_script.new()
+
+	# Make sure game over overlay is hidden initially
+	game_over_overlay.visible = false
 
 func _process(delta):
 	# Update game time
@@ -171,11 +176,21 @@ func _game_over(victory):
 	game_over = true
 	enemy_spawn_timer.stop()
 
-	# Show appropriate game over screen
-	if victory:
-		print("Victory! Final score: %d" % score)
-	else:
-		print("Game Over! Final score: %d" % score)
-
 	# Disable player movement
 	player.set_physics_process(false)
+
+	# Update score on the game over screen
+	score_label.text = "Score: %d" % score
+
+	# Show the game over overlay
+	game_over_overlay.visible = true
+
+	# Stop any ongoing game processes
+	get_tree().paused = true
+
+func _on_return_to_menu_button_pressed():
+	# Unpause the game before changing scenes
+	get_tree().paused = false
+
+	# Return to the main menu
+	get_tree().change_scene_to_file("res://scenes/main.tscn")

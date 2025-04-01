@@ -118,7 +118,7 @@ position = Vector2(0, -359.306)
 scale = Vector2(0.5, 1.02822)
 sprite_frames = SubResource("SpriteFrames_qbgr1")
 animation = &"strike"
-frame_progress = 0.268407
+frame_progress = 0.996462
 offset = Vector2(0, 64)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
