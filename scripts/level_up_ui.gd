@@ -2,18 +2,13 @@ extends Control
 
 signal upgrade_selected(option)
 
-# Reference to the orbit weapon class
-const WeaponOrbitScript = preload("res://scripts/weapon_orbit.gd")
-
-# Menu option types
-enum UpgradeOption {
-	PROJECTILE_COUNT,
-	FIRING_SPEED,
-	ORBIT_FIREBALL
-}
+# Load weapon manager
+const WeaponManager = preload("res://scripts/weapon_manager.gd")
 
 # Game state before UI was shown
 var previous_pause_state = false
+var weapon_manager = null
+var upgrade_options = []
 
 func _ready():
 	# Make sure UI is hidden at start
@@ -22,54 +17,77 @@ func _ready():
 	# Set process mode to stop the game when UI is active
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 
+	# Initialize weapon manager
+	weapon_manager = WeaponManager.new()
+
 func show_upgrades():
 	# Store current pause state
 	previous_pause_state = get_tree().paused
 
-	# Set descriptions based on player's current state
-	_update_option_descriptions()
-
-	# Show UI and pause game
-	show()
-	get_tree().paused = true
-
-func _update_option_descriptions():
-	var option1_label = $CenterContainer/PanelContainer/VBoxContainer/UpgradeOptions/Option1/HBoxContainer/Label
-	var option2_label = $CenterContainer/PanelContainer/VBoxContainer/UpgradeOptions/Option2/HBoxContainer/Label
-	var option3_label = $CenterContainer/PanelContainer/VBoxContainer/UpgradeOptions/Option3/HBoxContainer/Label
-
-	# Check if player already has orbit fireballs
+	# Get player reference
 	var player = get_tree().get_first_node_in_group("player")
-	var has_orbit_weapon = false
 
 	if player:
-		for weapon in player.weapons:
-			if weapon.get_script() == WeaponOrbitScript:
-				has_orbit_weapon = true
-				option3_label.text = "Increase Orbiting Fireballs"
-				break
+		# Get random upgrade options
+		upgrade_options = weapon_manager.get_upgrade_options(player, 3)
+		_update_option_ui(upgrade_options)
 
-	if not has_orbit_weapon:
-		option3_label.text = "Add Orbiting Fireballs"
+		# Show UI and pause game
+		show()
+		get_tree().paused = true
+	else:
+		print("Error: Player not found!")
 
-func _on_option_1_pressed():
-	# Increase projectile count
-	emit_signal("upgrade_selected", UpgradeOption.PROJECTILE_COUNT)
-	_close_ui()
+func _update_option_ui(options):
+	var option_containers = [
+		$CenterContainer/PanelContainer/VBoxContainer/UpgradeOptions/Option1,
+		$CenterContainer/PanelContainer/VBoxContainer/UpgradeOptions/Option2,
+		$CenterContainer/PanelContainer/VBoxContainer/UpgradeOptions/Option3
+	]
 
-func _on_option_2_pressed():
-	# Increase firing speed
-	emit_signal("upgrade_selected", UpgradeOption.FIRING_SPEED)
-	_close_ui()
+	# Configure each option
+	for i in range(min(options.size(), option_containers.size())):
+		var option = options[i]
+		var container = option_containers[i]
+		var label = container.get_node("HBoxContainer/Label")
+		var icon = container.get_node("HBoxContainer/MarginContainer/TextureRect")
 
-func _on_option_3_pressed():
-	# Add or upgrade orbit fireballs
-	emit_signal("upgrade_selected", UpgradeOption.ORBIT_FIREBALL)
-	_close_ui()
+		# Set the label text
+		label.text = option.name + ": " + option.description
+
+		# Load icon if available
+		if ResourceLoader.exists(option.icon):
+			icon.texture = load(option.icon)
+
+		# Make sure the button is visible
+		container.visible = true
+
+	# Hide any unused options
+	for i in range(options.size(), option_containers.size()):
+		option_containers[i].visible = false
 
 func _close_ui():
-	# Hide UI
+	# Hide UI and restore previous pause state
 	hide()
-
-	# Restore previous pause state
 	get_tree().paused = previous_pause_state
+
+func _on_option_1_pressed():
+	if upgrade_options.size() >= 1:
+		_apply_upgrade(0)
+
+func _on_option_2_pressed():
+	if upgrade_options.size() >= 2:
+		_apply_upgrade(1)
+
+func _on_option_3_pressed():
+	if upgrade_options.size() >= 3:
+		_apply_upgrade(2)
+
+func _apply_upgrade(option_index):
+	var player = get_tree().get_first_node_in_group("player")
+	if player and option_index < upgrade_options.size():
+		var selected_type = upgrade_options[option_index].type
+		weapon_manager.apply_upgrade(player, selected_type)
+		emit_signal("upgrade_selected", selected_type)
+
+	_close_ui()

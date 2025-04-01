@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://cra3uvhqcfk4c"]
+
+[ext_resource type="Script" path="res://scripts/orbit_fireball.gd" id="1_cxgih"]
+[ext_resource type="Texture2D" uid="uid://p0rnn52nlr72" path="res://assets/sprites/fireball.png" id="2_kfggf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p5mkn"]
+radius = 16.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j17fm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_kfggf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="OrbitFireball" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_cxgih")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_p5mkn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_j17fm")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

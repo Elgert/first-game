@@ -17,8 +17,10 @@ var current_vector = Vector2.ZERO
 @onready var stick = $Stick
 
 func _ready():
-	# Hide the analog stick initially - only show on touch
-	visible = false
+	# Keep the analog stick invisible at all times
+	visible = true
+	base.modulate.a = 0
+	stick.modulate.a = 0
 
 func _process(delta):
 	if touch_index != -1:
@@ -43,11 +45,10 @@ func _input(event):
 			touch_position = event.position
 			base.position = touch_position
 			stick.position = touch_position
-			visible = true
+			# Keep invisible when touched
 		elif !event.pressed and event.index == touch_index:
 			# Touch released
 			touch_index = -1
-			visible = false
 			emit_signal("analog_released")
 
 	elif event is InputEventScreenDrag and event.index == touch_index:

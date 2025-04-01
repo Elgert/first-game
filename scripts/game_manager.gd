@@ -22,6 +22,10 @@ var enemy_types = []
 var level_up_ui_scene = preload("res://scenes/level_up_ui.tscn")
 var level_up_ui = null
 
+# Weapon management
+var weapon_manager_script = preload("res://scripts/weapon_manager.gd")
+var weapon_manager = null
+
 # References
 @onready var player = $Player
 @onready var enemy_spawn_timer = $EnemySpawnTimer
@@ -57,6 +61,9 @@ func _ready():
 	$CanvasLayer.add_child(level_up_ui)
 	level_up_ui.connect("upgrade_selected", _on_upgrade_selected)
 
+	# Initialize weapon manager
+	weapon_manager = weapon_manager_script.new()
+
 func _process(delta):
 	# Update game time
 	if !game_over:
@@ -64,7 +71,7 @@ func _process(delta):
 		_update_time_display()
 
 		# Update difficulty based on time
-		difficulty_curve = 1.0 + (current_time / 60.0) * 0.1 # 10% increase per minute
+		difficulty_curve = 1.0 + (current_time / 5.0) * 0.5 # 10% increase per minute
 
 func _update_time_display():
 	var time_left = max(game_time - current_time, 0)
@@ -86,7 +93,7 @@ func _on_enemy_spawn_timer_timeout():
 	spawn_count = min(spawn_count, enemy_max_count - current_enemies)
 
 	# Adjust spawn timer based on difficulty
-	enemy_spawn_timer.wait_time = max(0.5, 2.0 - (difficulty_curve * 0.1))
+	enemy_spawn_timer.wait_time = max(0.1, 2.0 - (difficulty_curve * 0.5))
 
 	# Spawn enemies
 	for i in range(spawn_count):

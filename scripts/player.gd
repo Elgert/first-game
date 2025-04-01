@@ -6,15 +6,16 @@ signal experience_changed(new_exp, next_level_exp)
 
 const SPEED = 300.0
 
-# Weapon types
-const WeaponOrbitScript = preload("res://scripts/weapon_orbit.gd")
+# Load weapon manager
+const WeaponManager = preload("res://scripts/weapon_manager.gd")
+var weapon_manager = null
 
 # Player stats
 var health = 100
 var max_health = 100
 var experience = 0
 var level = 1
-var experience_to_next_level = 3 # Lower value for faster leveling during testing
+var experience_to_next_level = 20 # Lower value for faster leveling during testing
 
 # Weapons and abilities
 var weapons = []
@@ -31,6 +32,9 @@ var last_direction = "down"
 @onready var animated_sprite = $AnimatedSprite2D
 
 func _ready():
+	# Initialize weapon manager
+	weapon_manager = WeaponManager.new()
+
 	# Initialize player
 	emit_signal("health_changed", health, max_health)
 	emit_signal("level_changed", level)
@@ -134,60 +138,30 @@ func level_up():
 	emit_signal("health_changed", health, max_health)
 	emit_signal("experience_changed", experience, experience_to_next_level)
 
-# Apply a selected upgrade
-func apply_upgrade(upgrade_type):
-	match upgrade_type:
-		0: # Increase projectile count
-			increase_projectile_count()
-		1: # Increase firing speed
-			increase_firing_speed()
-		2: # Add or upgrade orbiting fireballs
-			upgrade_orbit_fireballs()
+# Apply a selected upgrade from the weapon manager
+func apply_upgrade(weapon_type):
+	if weapon_manager:
+		return weapon_manager.apply_upgrade(self, weapon_type)
+	return false
 
-# Increase the number of projectiles fired
+# Legacy upgrade methods (keeping for compatibility)
 func increase_projectile_count():
-	if basic_weapon:
+	if basic_weapon and basic_weapon.has_method("upgrade"):
 		basic_weapon.projectile_count += 1
 		print("Upgrade applied: Projectile count increased to: ", basic_weapon.projectile_count)
 
-# Increase the firing speed of the main weapon
 func increase_firing_speed():
-	if basic_weapon:
+	if basic_weapon and basic_weapon.has_method("upgrade"):
 		basic_weapon.attack_speed *= 1.2
 		basic_weapon.cooldown = 1.0 / basic_weapon.attack_speed
 		print("Upgrade applied: Firing speed increased to: ", basic_weapon.attack_speed)
 
-# Add or upgrade the orbiting fireballs
 func upgrade_orbit_fireballs():
-	# Check if player already has orbit weapon
-	var has_orbit_weapon = false
-	var orbit_weapon = null
+	# This is now handled by the weapon manager
+	pass
 
-	for weapon in weapons:
-		if weapon.get_script() == WeaponOrbitScript:
-			has_orbit_weapon = true
-			orbit_weapon = weapon
-			break
-
-	if has_orbit_weapon:
-		# Upgrade existing orbit weapon
-		orbit_weapon.upgrade()
-		print("Upgrade applied: Orbit fireball count increased to: ", orbit_weapon.fireball_count)
-	else:
-		# Add new orbit weapon
-		var new_orbit_weapon = Node2D.new()
-		new_orbit_weapon.set_script(WeaponOrbitScript)
-		add_child(new_orbit_weapon)
-		weapons.append(new_orbit_weapon)
-		print("Upgrade applied: Orbit fireball added")
-
-# Add a weapon
+# Add a weapon directly (called from weapon manager)
 func add_weapon(weapon_scene):
 	var weapon = weapon_scene.instantiate()
 	weapons.append(weapon)
 	add_child(weapon)
-
-# Upgrade a weapon
-func upgrade_weapon(weapon_index):
-	if weapon_index < weapons.size():
-		weapons[weapon_index].upgrade()
