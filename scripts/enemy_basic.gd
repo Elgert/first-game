@@ -6,6 +6,7 @@ signal enemy_died(position, experience_value)
 @export var health = 10
 @export var damage = 5
 @export var experience_value = 1
+@export var despawn_distance = 2000.0 # Distance from player at which to despawn
 
 var target = null
 var knockback_velocity = Vector2.ZERO
@@ -30,6 +31,12 @@ func _physics_process(delta):
 	if target == null:
 		# Try to find player again if lost
 		target = get_tree().get_first_node_in_group("player")
+		return
+
+	# Check if too far from player, despawn if necessary
+	var distance_to_player = global_position.distance_to(target.global_position)
+	if distance_to_player > despawn_distance:
+		queue_free()
 		return
 
 	# Apply knockback and reduce it over time

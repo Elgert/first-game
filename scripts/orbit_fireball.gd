@@ -17,6 +17,14 @@ func _ready():
 	# Set initial angle with offset
 	orbit_angle = orbit_offset
 
+	# Position immediately with the offset
+	if parent_node:
+		var initial_pos = Vector2(
+			cos(orbit_angle) * orbit_distance,
+			sin(orbit_angle) * orbit_distance
+		)
+		position = initial_pos
+
 	# Start the animation
 	$AnimatedSprite2D.play("default")
 

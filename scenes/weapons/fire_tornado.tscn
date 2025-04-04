@@ -1,0 +1,75 @@
+[gd_scene load_steps=11 format=3 uid="uid://b7c8cdrxlg1re"]
+
+[ext_resource type="Script" uid="uid://kfqr4esrikl1" path="res://scripts/fire_tornado.gd" id="1_jnlwt"]
+[ext_resource type="Texture2D" uid="uid://bjwqibpnwu57h" path="res://assets/sprites/fire_tornado.png" id="2_hqrkt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b331k"]
+atlas = ExtResource("2_hqrkt")
+region = Rect2(32, 360, 242, 333)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmxlq"]
+atlas = ExtResource("2_hqrkt")
+region = Rect2(274, 360, 242, 333)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8cgli"]
+atlas = ExtResource("2_hqrkt")
+region = Rect2(516, 360, 242, 333)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w6tvc"]
+atlas = ExtResource("2_hqrkt")
+region = Rect2(758, 360, 242, 333)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v3gwu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b331k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmxlq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8cgli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w6tvc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b331k"]
+size = Vector2(84, 47)
+
+[sub_resource type="Gradient" id="Gradient_3kfxy"]
+offsets = PackedFloat32Array(0, 0.3, 0.7, 1)
+colors = PackedColorArray(1, 0.6, 0, 0, 1, 0.4, 0, 0.7, 1, 0.2, 0, 0.9, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6cq72"]
+gradient = SubResource("Gradient_3kfxy")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.9, 0.1)
+
+[node name="FireTornado" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_jnlwt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_v3gwu")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-7, 57.5)
+shape = SubResource("RectangleShape2D_b331k")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 0.486275, 0, 1)
+energy = 1.5
+texture = SubResource("GradientTexture2D_6cq72")
+texture_scale = 2.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

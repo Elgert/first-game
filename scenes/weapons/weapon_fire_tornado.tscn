@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://wur0se4gwugt"]
+
+[ext_resource type="Script" uid="uid://dm8jji33r342r" path="res://scripts/weapon_fire_tornado.gd" id="1_s8h41"]
+
+[node name="WeaponFireTornado" type="Node2D"]
+script = ExtResource("1_s8h41")

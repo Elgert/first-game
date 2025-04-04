@@ -4,7 +4,8 @@ extends Node
 enum WeaponType {
 	PROJECTILE,
 	ORBIT_FIREBALL,
-	FIRE_THUNDER
+	FIRE_THUNDER,
+	FIRE_TORNADO
 }
 
 # Dictionary of all available weapons with their properties
@@ -102,7 +103,7 @@ var available_weapons = {
 			{
 				"description": "Add another fireball",
 				"stats": {
-					"fireball_count": 1,
+					"fireball_count": 2,
 					"damage": 1.2
 				}
 			},
@@ -118,7 +119,7 @@ var available_weapons = {
 			{
 				"description": "Add another fireball",
 				"stats": {
-					"fireball_count": 1,
+					"fireball_count": 3,
 					"damage": 1.2
 				}
 			},
@@ -126,7 +127,7 @@ var available_weapons = {
 			{
 				"description": "Max level - add 2 more fireballs and increase damage",
 				"stats": {
-					"fireball_count": 2,
+					"fireball_count": 5,
 					"damage": 1.5,
 					"orbit_speed": 1.2
 				}
@@ -177,6 +178,57 @@ var available_weapons = {
 					"strike_count": 1,
 					"damage": 1.5,
 					"attack_interval": 0.7 # 30% faster than original
+				}
+			}
+		]
+	},
+
+	WeaponType.FIRE_TORNADO: {
+		"name": "Fire Tornado",
+		"description": "Summons fire tornadoes that travel in wavy paths, damaging enemies",
+		"icon": "res://assets/sprites/fire_tornado.png",
+		"scene": "res://scenes/weapons/weapon_fire_tornado.tscn",
+		"script": "res://scripts/weapon_fire_tornado.gd",
+		"base_stats": {
+			"damage": 20,
+			"attack_interval": 6.0,
+			"attack_range": 1000.0,
+			"tornado_count": 1,
+			"tornado_speed": 150.0
+		},
+		"max_level": 5,
+		"upgrades": [
+			# Level 2
+			{
+				"description": "Increase damage and reduce cooldown",
+				"stats": {
+					"damage": 1.3,
+					"attack_interval": 0.8
+				}
+			},
+			# Level 3
+			{
+				"description": "Add another tornado (120° angle)",
+				"stats": {
+					"tornado_count": 1,
+					"damage": 1.2
+				}
+			},
+			# Level 4
+			{
+				"description": "Faster cooldown and increased speed",
+				"stats": {
+					"attack_interval": 0.7,
+					"tornado_speed": 1.3
+				}
+			},
+			# Level 5
+			{
+				"description": "Maximum power: 3 tornadoes with increased damage",
+				"stats": {
+					"tornado_count": 1,
+					"damage": 1.5,
+					"attack_interval": 0.7
 				}
 			}
 		]

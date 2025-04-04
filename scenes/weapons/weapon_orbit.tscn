@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bcvd54cmb6wbl"]
+[gd_scene load_steps=2 format=3 uid="uid://utgo77f5l6po"]
 
-[ext_resource type="Script" path="res://scripts/weapon_orbit.gd" id="1_dg6ph"]
+[ext_resource type="Script" uid="uid://clpfqmkqhx2ht" path="res://scripts/weapon_orbit.gd" id="1_dg6ph"]
 
 [node name="WeaponOrbit" type="Node2D"]
 script = ExtResource("1_dg6ph")

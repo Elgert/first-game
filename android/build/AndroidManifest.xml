@@ -39,14 +39,14 @@
             android:value="${godotRenderingMethod}"/>
 
         <activity
-            android:name=".GodotApp"
+            android:name="com.godot.game.GodotApp"
             android:label="@string/godot_project_name_string"
             android:theme="@style/GodotAppSplashTheme"
             android:launchMode="singleInstancePerTask"
             android:excludeFromRecents="false"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|density"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|density|keyboard|navigation|screenLayout|uiMode"
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" >
 

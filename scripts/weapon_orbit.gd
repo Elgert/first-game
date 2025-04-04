@@ -20,6 +20,7 @@ func _ready():
 	spawn_fireballs()
 
 func spawn_fireballs():
+	print("Spawning fireballs: ", fireball_count)
 	# Clear existing fireballs first
 	for ball in fireballs:
 		if is_instance_valid(ball):
@@ -29,15 +30,20 @@ func spawn_fireballs():
 	# Create new fireballs with even spacing
 	for i in range(fireball_count):
 		var fireball = fireball_scene.instantiate()
+		var offset = (2 * PI / fireball_count) * i
 
 		# Configure fireball properties
 		fireball.damage = damage
 		fireball.orbit_speed = orbit_speed
 		fireball.orbit_distance = orbit_distance
-		fireball.orbit_offset = (2 * PI / fireball_count) * i # Even spacing
+		fireball.orbit_offset = offset # Even spacing
+
+		print("Fireball #" + str(i) + " - Offset: " + str(offset) + " radians (" + str(offset * 180 / PI) + " degrees)")
 
 		add_child(fireball)
 		fireballs.append(fireball)
+
+	print("Total fireballs created: ", fireballs.size())
 
 # Level up the weapon
 func upgrade():
@@ -53,7 +59,7 @@ func _apply_upgrade():
 	match level:
 		2:
 			# Level 2: Add another fireball
-			fireball_count += 1
+			fireball_count = 2
 			damage = int(damage * 1.2)
 		3:
 			# Level 3: Increase damage and speed
@@ -61,11 +67,11 @@ func _apply_upgrade():
 			orbit_speed *= 1.2
 		4:
 			# Level 4: Add another fireball
-			fireball_count += 1
+			fireball_count = 3
 			damage = int(damage * 1.2)
 		5:
 			# Level 5: Max level - add 2 more fireballs and increase damage
-			fireball_count += 2
+			fireball_count = 5
 			damage = int(damage * 1.5)
 			orbit_speed *= 1.2
 

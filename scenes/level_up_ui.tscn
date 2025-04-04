@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c5t5g05rp5ixl"]
+[gd_scene load_steps=9 format=3 uid="uid://c5t5g05rp5ixl"]
 
 [ext_resource type="Script" uid="uid://dvkipa68xdpqm" path="res://scripts/level_up_ui.gd" id="1_6l8qd"]
 [ext_resource type="Texture2D" uid="uid://p0rnn52nlr72" path="res://assets/sprites/fireball.png" id="2_tlnpu"]
+
+[sub_resource type="Theme" id="Theme_qp65j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q01x2"]
 bg_color = Color(0.0784314, 0.0784314, 0.0784314, 0.882353)
@@ -9,11 +11,13 @@ border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(0.254902, 0.254902, 0.254902, 1)
+border_color = Color(0.440055, 0.138912, 0.104958, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
+
+[sub_resource type="Theme" id="Theme_n8u1n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uao2r"]
 bg_color = Color(0.227451, 0.227451, 0.227451, 0.941176)
@@ -81,10 +85,12 @@ grow_vertical = 2
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 2
+theme = SubResource("Theme_qp65j")
 theme_override_styles/panel = SubResource("StyleBoxFlat_q01x2")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer"]
 layout_mode = 2
+theme = SubResource("Theme_n8u1n")
 theme_override_constants/separation = 15
 
 [node name="Title" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer"]

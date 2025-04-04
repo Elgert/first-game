@@ -7,15 +7,11 @@ var current_time = 0
 var game_over = false
 var score = 0
 
-# Map settings
-var map_width = 2000
-var map_height = 1500
-var map_center = Vector2(0, 0)
-var game_bounds = Rect2(-1000, -750, 2000, 1500)
+# Map settings - now unbounded
+var enemy_spawn_distance = 600
 
 # Enemy settings
 var enemy_max_count = 100
-var enemy_spawn_distance = 600
 var enemy_types = []
 
 # Level up UI
@@ -39,10 +35,6 @@ var weapon_manager = null
 @onready var score_label = $CanvasLayer/GameOverOverlay/Panel/ScoreLabel
 
 func _ready():
-	# Force portrait orientation on mobile
-	if OS.get_name() == "Android" or OS.get_name() == "iOS":
-		DisplayServer.screen_set_orientation(DisplayServer.SCREEN_PORTRAIT)
-
 	# Initialize the game
 	randomize()
 
@@ -108,35 +100,14 @@ func _spawn_enemy():
 	var enemy_type = enemy_types[0] # Just using the basic enemy for now
 	var enemy = enemy_type.instantiate()
 
-	# Find a valid spawn position within game bounds
-	var valid_position = false
-	var spawn_pos = Vector2.ZERO
-	var attempts = 0
-
-	while !valid_position and attempts < 10:
-		# Get random direction from player
-		var direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
-		spawn_pos = player.global_position + direction * enemy_spawn_distance
-
-		# Ensure spawn position is within game bounds
-		if game_bounds.has_point(spawn_pos):
-			valid_position = true
-		else:
-			attempts += 1
-
-	# If we couldn't find a valid position, use a position at the edge
-	if !valid_position:
-		var angle = randf() * 2 * PI
-		var direction = Vector2(cos(angle), sin(angle))
-		spawn_pos = player.global_position + direction * (enemy_spawn_distance * 0.8)
-
-		# Clamp to game bounds
-		spawn_pos.x = clamp(spawn_pos.x, game_bounds.position.x, game_bounds.position.x + game_bounds.size.x)
-		spawn_pos.y = clamp(spawn_pos.y, game_bounds.position.y, game_bounds.position.y + game_bounds.size.y)
+	# Get random direction from player
+	var angle = randf() * 2 * PI
+	var direction = Vector2(cos(angle), sin(angle))
+	var spawn_pos = player.global_position + direction * enemy_spawn_distance
 
 	# Set enemy position and connect signals
 	enemy.global_position = spawn_pos
-	enemy.connect("enemy_died", _on_enemy_died)
+	enemy.connect("enemy_died", Callable(self, "_on_enemy_died"))
 
 	# Add to scene
 	add_child(enemy)
@@ -159,8 +130,25 @@ func _on_player_health_changed(new_health, max_health):
 func _on_player_level_changed(new_level):
 	level_label.text = "Level: %d" % new_level
 
-	# Show level up UI and pause the game
-	level_up_ui.show_upgrades()
+	# Check if there are any upgrades available
+	var has_upgrades_available = false
+
+	# Get player weapons
+	for weapon in player.weapons:
+		if weapon.level < weapon.max_level:
+			has_upgrades_available = true
+			break
+
+	# Check if any new weapons could be added
+	if weapon_manager and player.weapons.size() < weapon_manager.available_weapons.size():
+		has_upgrades_available = true
+
+	# Only show level up UI if upgrades are available
+	if has_upgrades_available:
+		# Show level up UI and pause the game
+		level_up_ui.show_upgrades()
+	else:
+		print("Maximum level reached for all weapons - no upgrades available")
 
 func _on_player_experience_changed(new_exp, next_level_exp):
 	exp_bar.value = float(new_exp) / next_level_exp

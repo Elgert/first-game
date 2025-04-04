@@ -1,15 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://yyenrdmatgy0"]
+[gd_scene load_steps=13 format=3 uid="uid://yyenrdmatgy0"]
 
 [ext_resource type="PackedScene" uid="uid://b3r45kypfcy2u" path="res://scenes/player.tscn" id="1_yt1ie"]
 [ext_resource type="PackedScene" uid="uid://bdwf8kr1c001" path="res://scenes/analog_stick.tscn" id="2_oj3va"]
 [ext_resource type="Script" uid="uid://605eqxdl1ftw" path="res://scripts/game_manager.gd" id="3_dkyex"]
 [ext_resource type="Texture2D" uid="uid://cv8agjv5mm4kx" path="res://assets/scenes/background_forest.png" id="4_flxam"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nw4y2"]
-size = Vector2(2000, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fmxr4"]
-size = Vector2(20, 2000)
+[ext_resource type="Script" uid="uid://c601icsmutqb1" path="res://scripts/parallax_background.gd" id="4_parallax"]
 
 [sub_resource type="TileSet" id="TileSet_8n50p"]
 
@@ -97,29 +92,37 @@ shadow_offset = Vector2(0, 3)
 [node name="Game" type="Node2D"]
 script = ExtResource("3_dkyex")
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource("4_parallax")
+
+[node name="FarLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(3000, 3000)
+
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/FarLayer"]
+modulate = Color(0.8, 0.8, 0.9, 1)
 scale = Vector2(3, 3)
 texture = ExtResource("4_flxam")
 
-[node name="GameBounds" type="StaticBody2D" parent="."]
-collision_layer = 2
-collision_mask = 0
+[node name="MidLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.6, 0.6)
+motion_mirroring = Vector2(3000, 3000)
 
-[node name="TopBoundary" type="CollisionShape2D" parent="GameBounds"]
-position = Vector2(0, -750)
-shape = SubResource("RectangleShape2D_nw4y2")
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/MidLayer"]
+modulate = Color(0.9, 0.9, 1, 0.8)
+position = Vector2(400, 300)
+scale = Vector2(3, 3)
+texture = ExtResource("4_flxam")
 
-[node name="BottomBoundary" type="CollisionShape2D" parent="GameBounds"]
-position = Vector2(0, 750)
-shape = SubResource("RectangleShape2D_nw4y2")
+[node name="CloseLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.9, 0.9)
+motion_mirroring = Vector2(3000, 3000)
 
-[node name="LeftBoundary" type="CollisionShape2D" parent="GameBounds"]
-position = Vector2(-1000, 0)
-shape = SubResource("RectangleShape2D_fmxr4")
-
-[node name="RightBoundary" type="CollisionShape2D" parent="GameBounds"]
-position = Vector2(1000, 0)
-shape = SubResource("RectangleShape2D_fmxr4")
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/CloseLayer"]
+modulate = Color(1, 1, 1, 0.7)
+position = Vector2(-500, -400)
+scale = Vector2(3, 3)
+texture = ExtResource("4_flxam")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_8n50p")
@@ -128,6 +131,10 @@ format = 2
 layer_0/name = "Ground"
 
 [node name="Player" parent="." instance=ExtResource("1_yt1ie")]
+
+[node name="Camera2D2" type="Camera2D" parent="Player"]
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
