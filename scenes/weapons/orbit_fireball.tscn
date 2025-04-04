@@ -3,29 +3,29 @@
 [ext_resource type="Script" uid="uid://1ndy8rwu24lt" path="res://scripts/orbit_fireball.gd" id="1_cqg1p"]
 [ext_resource type="Texture2D" uid="uid://p0rnn52nlr72" path="res://assets/sprites/fireball.png" id="2_lrrbl"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g03ro"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjs1i"]
 atlas = ExtResource("2_lrrbl")
-region = Rect2(0, 0, 340, 1021)
+region = Rect2(0, 0, 340, 317)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_a16p5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_aor02"]
 atlas = ExtResource("2_lrrbl")
-region = Rect2(340, 0, 340, 1021)
+region = Rect2(340, 0, 340, 317)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lqq5q"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ttod"]
 atlas = ExtResource("2_lrrbl")
-region = Rect2(680, 0, 340, 1021)
+region = Rect2(680, 0, 340, 317)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4uuea"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_g03ro")
+"texture": SubResource("AtlasTexture_qjs1i")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_a16p5")
+"texture": SubResource("AtlasTexture_aor02")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lqq5q")
+"texture": SubResource("AtlasTexture_1ttod")
 }],
 "loop": true,
 "name": &"default",
@@ -41,7 +41,8 @@ collision_mask = 2
 script = ExtResource("1_cqg1p")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.08, 0.08)
+position = Vector2(6, -4)
+scale = Vector2(0.0988235, 0.0991079)
 sprite_frames = SubResource("SpriteFrames_4uuea")
 autoplay = "default"
 frame_progress = 0.143486

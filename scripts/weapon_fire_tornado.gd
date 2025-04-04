@@ -86,22 +86,10 @@ func upgrade():
 
 # Apply stat upgrades based on level
 func _apply_upgrade():
-	# Apply upgrades based on level
-	match level:
-		2:
-			# Level 2: Increase damage and reduce cooldown
-			damage = int(damage * 1.3)
-			attack_interval *= 0.8
-		3:
-			# Level 3: Add another tornado at a different angle
-			tornado_count += 1
-			damage = int(damage * 1.2)
-		4:
-			# Level 4: Reduce cooldown and increase speed
-			attack_interval *= 0.7
-			tornado_speed *= 1.3
-		5:
-			# Level 5: Max level - add one more tornado and increase damage
-			tornado_count += 1
-			damage = int(damage * 1.5)
-			attack_interval *= 0.7
+	# Removed internal upgrade logic - handled in weapon_manager
+	pass
+
+# Called by the weapon manager after applying upgrade stats
+func _after_upgrade():
+	# Any specific post-upgrade actions can be implemented here
+	pass

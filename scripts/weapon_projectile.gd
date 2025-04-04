@@ -131,43 +131,10 @@ func upgrade():
 
 # Apply stat upgrades based on level
 func _apply_upgrade():
-	# Base implementation
-	damage = int(damage * 1.2) # 20% damage increase per level
-	attack_speed *= 1.1 # 10% attack speed increase per level
-	attack_range *= 1.05 # 5% range increase per level
+	# Removed internal upgrade logic - handled in weapon_manager
+	pass
 
-	# Update cooldown based on new attack speed
+# Called by the weapon manager after applying upgrade statasfasfs
+func _after_upgrade():
+	# Update cooldown based on attack speed
 	cooldown = 1.0 / attack_speed
-
-	# Specific upgrades for projectile weapon
-	match level:
-		2:
-			# Level 2: Add an extra projectile
-			projectile_count += 1
-			# Slightly increase spread for multiple projectiles
-			projectile_spread = 20.0
-		3:
-			# Level 3: Increase damage more
-			damage = int(damage * 1.3)
-		4:
-			# Level 4: Add piercing
-			pierce_count += 1
-			# Increase spread slightly
-			projectile_spread = 25.0
-		5:
-			# Level 5: Add another projectile
-			projectile_count += 1
-			# Increase spread slightly
-			projectile_spread = 30.0
-		6:
-			# Level 6: More piercing
-			pierce_count += 1
-		7:
-			# Level 7: More damage
-			damage = int(damage * 1.4)
-		8:
-			# Level 8: Final upgrade - lots of projectiles
-			projectile_count += 2
-			pierce_count += 1
-			# Final spread adjustment
-			projectile_spread = 40.0

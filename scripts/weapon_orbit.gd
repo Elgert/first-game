@@ -49,31 +49,17 @@ func spawn_fireballs():
 func upgrade():
 	if level < max_level:
 		level += 1
-		_apply_upgrade()
+		# This method is no longer used - upgrades are handled in weapon_manager
 		return true
 	return false
 
+# This method is no longer used - upgrades are handled in weapon_manager
 # Apply stat upgrades based on level
 func _apply_upgrade():
-	# Apply upgrades based on level
-	match level:
-		2:
-			# Level 2: Add another fireball
-			fireball_count = 2
-			damage = int(damage * 1.2)
-		3:
-			# Level 3: Increase damage and speed
-			damage = int(damage * 1.3)
-			orbit_speed *= 1.2
-		4:
-			# Level 4: Add another fireball
-			fireball_count = 3
-			damage = int(damage * 1.2)
-		5:
-			# Level 5: Max level - add 2 more fireballs and increase damage
-			fireball_count = 5
-			damage = int(damage * 1.5)
-			orbit_speed *= 1.2
+	# Removed internal upgrade logic - handled in weapon_manager
+	pass
 
-	# Respawn all fireballs with new configuration
+# Called by the weapon manager after applying upgrade stats
+func _after_upgrade():
+	# Respawn fireballs with new configuration
 	spawn_fireballs()

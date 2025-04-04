@@ -56,16 +56,16 @@ func find_target():
 func upgrade():
 	if level < max_level:
 		level += 1
-		_apply_upgrade()
+		# This method is no longer used - upgrades are handled in weapon_manager
 		return true
 	return false
 
 # Apply stat upgrades based on level
 func _apply_upgrade():
-	# Base implementation - override in specific weapons
-	damage = int(damage * 1.2) # 20% damage increase per level
-	attack_speed *= 1.1 # 10% attack speed increase per level
-	attack_range *= 1.05 # 5% range increase per level
+	# Removed - upgrade logic handled in weapon_manager
+	pass
 
+# Called by the weapon manager after applying upgrade stats
+func _after_upgrade():
 	# Update cooldown based on new attack speed
 	cooldown = 1.0 / attack_speed
